@@ -4,7 +4,6 @@ import { PRODUCTS } from '../constants';
 import ProductCard from './ProductCard';
 import { useLocalization } from '../context/LocalizationContext';
 import type { Product, LocalizedString } from '../types';
-import ProductCardSkeleton from './ProductCardSkeleton';
 
 interface ProductListProps {
   category: LocalizedString | null;
@@ -13,18 +12,8 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ category, onProductSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
   const [columns, setColumns] = useState(3);
   const { language, t } = useLocalization();
-
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500); // Simulate loading for better UX when category changes
-
-    return () => clearTimeout(timer);
-  }, [category]);
 
   useEffect(() => {
     const getColumns = () => {
@@ -64,24 +53,11 @@ const ProductList: React.FC<ProductListProps> = ({ category, onProductSelect }) 
           placeholder={t('product.searchPlaceholder')}
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full max-w-lg mx-auto block px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 transition-shadow bg-white"
+          className="w-full max-w-lg mx-auto block px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 transition-shadow bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 placeholder-slate-400"
           aria-label="Search products"
         />
       </div>
   );
-
-  if (isLoading) {
-    return (
-       <div className="space-y-8">
-        {searchBar}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <ProductCardSkeleton key={index} />
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-8">
@@ -90,7 +66,7 @@ const ProductList: React.FC<ProductListProps> = ({ category, onProductSelect }) 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product, index) => {
             const rowIndex = Math.floor(index / columns);
-            const delay = rowIndex * 250; // 250ms delay per row
+            const delay = rowIndex * 100; // Reduced delay for snappier feel
             return (
               <div
                 key={product.id}
@@ -104,7 +80,7 @@ const ProductList: React.FC<ProductListProps> = ({ category, onProductSelect }) 
         </div>
       ) : (
         <div className="text-center py-16">
-            <p className="text-slate-500">{t('product.noResults')}</p>
+            <p className="text-slate-500 dark:text-slate-400">{t('product.noResults')}</p>
         </div>
       )}
     </div>

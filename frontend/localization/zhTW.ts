@@ -1,3 +1,4 @@
+
 // FIX: This file was empty. It has been populated with the necessary content to resolve module import errors.
 export const zhTW = {
   header: {
@@ -13,10 +14,12 @@ export const zhTW = {
     categoryTitle: "商品分類",
     allProducts: "所有商品",
     backToProducts: "返回商品列表",
+    subtitle: "透過豐富色彩的軟陶土，開始您的創作之旅！",
   },
   product: {
     selectColor: "選擇顏色",
     addToCart: "加入購物車",
+    addedToCart: "已加入購物車！",
     searchPlaceholder: "搜尋商品...",
     noResults: "找不到符合您搜尋的商品。",
     quantity: "數量",
@@ -42,13 +45,13 @@ export const zhTW = {
       title: "我們的軟陶故事",
       subtitle: "從一塊軟陶開始，傳承父親的工藝",
       card1Title: "讓父親的工藝繼續發光",
-      card1ContentP1: "小時候，父親總是坐在工廠的一角，辛勤的製作著屬於台灣的獨特軟陶工藝，那是他最引以為傲的事業。而我們，從小就在那個有著溫暖烤箱香氣的空間裡長大。",
+      card1ContentP1: "小時候，父親總是坐在工廠的一角，辛勤的製作著屬於台灣的獨特軟陶工藝，那是他最引以為傲的事業。而我們，從小就在那個有著溫暖烤箱香氣的空間里長大。",
       card1ContentP2: "那時候的我，還不太懂這些土為什麼這麼特別。直到親手把它放進烤箱，看著柔軟的形體在烤箱中慢慢變得結實、變得像記憶一樣被封存。我才明白——這是一種能讓創意永恆存在的魔法。",
       card1ContentP3: "我們的軟陶是高品質聚合性材料（PolymerClay），屬於熱塑性材質。只要用家用電烤箱，以 130°C 烘烤 10～15分鐘，就能完成屬於你自己的作品，創作的過程本身，就是最動人的故事。",
       card2Title: "為創作而生的材質",
       card2Item1: "超高延展性與可塑性：能塑造出細緻、有光澤、色彩飽滿的造型。",
       card2Item2: "安全無毒，親膚好操作：油性成分不刺激、不沾手，讓創作更自在。",
-      card2Item3: "耐久保存不變形：防水、防霉、不怕蟲蛀，作品能長久留存。",
+      card2Item3: "耐久保存不變形：防水、防霉、不怕虫蛀，作品能長久留存。",
       card2Item4: "自由調色：混合色彩，創造只屬於你的獨特色調。",
       card2Item5: "多材質結合：可與金屬、木頭、玻璃等耐溫材質搭配創作。",
       card3Title: "給每一位想動手創造的人",

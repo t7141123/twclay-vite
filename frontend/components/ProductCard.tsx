@@ -1,7 +1,9 @@
+
 import React, { useMemo } from 'react';
 import type { Product, ProductVariant } from '../types';
 import { useLocalization } from '../context/LocalizationContext';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 
 interface ProductCardProps {
   product: Product;
@@ -11,6 +13,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
   const { language, t } = useLocalization();
   const { addToCart } = useCart();
+  const { showToast } = useToast();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -24,6 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
         price: product.price,
       };
       addToCart(product, defaultVariant, 1);
+      showToast(t('product.addedToCart') || 'Added to cart!', 'success');
     }
   };
 
@@ -48,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
   return (
     <div
       onClick={() => onSelect(product)}
-      className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col cursor-pointer"
+      className="group bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col cursor-pointer"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(product)}
@@ -58,10 +62,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
         <img src={product.imageUrls[0]} alt={product.name[language]} className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110" />
       </div>
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-lg font-semibold text-slate-800">{product.name[language]}</h3>
-        <p className="text-sm text-slate-500 mt-1 flex-grow line-clamp-2">{product.description[language]}</p>
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{product.name[language]}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex-grow line-clamp-2">{product.description[language]}</p>
         <div className="mt-4 flex justify-between items-center">
-          <span className="text-xl font-bold text-amber-600">
+          <span className="text-xl font-bold text-amber-600 dark:text-amber-500">
             {priceDisplay}
           </span>
           <button

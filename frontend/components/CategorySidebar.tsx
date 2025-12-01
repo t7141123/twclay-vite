@@ -13,11 +13,11 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categories, selectedC
     const { language, t } = useLocalization();
 
     const getButtonClasses = (isActive: boolean) => 
-        `w-full text-left p-2 rounded-md transition-colors text-slate-600 hover:bg-amber-100 hover:text-amber-700 ${isActive ? 'font-semibold bg-amber-100 text-amber-700' : ''}`;
+        `w-full text-left p-2 rounded-md transition-colors text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-slate-700 hover:text-amber-700 dark:hover:text-amber-400 ${isActive ? 'font-semibold bg-amber-100 dark:bg-slate-700 text-amber-700 dark:text-amber-400' : ''}`;
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md sticky top-24">
-            <h3 className="text-xl font-semibold mb-4 border-b pb-2 text-slate-800">{t('shop.categoryTitle')}</h3>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md sticky top-24 transition-colors duration-300">
+            <h3 className="text-xl font-semibold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2 text-slate-800 dark:text-slate-100">{t('shop.categoryTitle')}</h3>
             <ul className="space-y-1">
                 <li key="all">
                     <button onClick={() => onSelectCategory(null)} className={getButtonClasses(!selectedCategory)}>

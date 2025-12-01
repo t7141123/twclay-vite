@@ -1,3 +1,4 @@
+
 // FIX: This file was empty. It has been populated with the necessary content to resolve module import errors.
 export const en = {
   header: {
@@ -13,10 +14,12 @@ export const en = {
     categoryTitle: "Categories",
     allProducts: "All Products",
     backToProducts: "Back to Products",
+    subtitle: "Start your creative journey with our colorful polymer clay!",
   },
   product: {
     selectColor: "Select Color",
     addToCart: "Add to Cart",
+    addedToCart: "Added to cart!",
     searchPlaceholder: "Search for products...",
     noResults: "No products found matching your search.",
     quantity: "Quantity",

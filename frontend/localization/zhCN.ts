@@ -1,3 +1,4 @@
+
 // FIX: This file was empty. It has been populated with the necessary content to resolve module import errors.
 export const zhCN = {
   header: {
@@ -13,10 +14,12 @@ export const zhCN = {
     categoryTitle: "商品分类",
     allProducts: "所有商品",
     backToProducts: "返回商品列表",
+    subtitle: "透过丰富色彩的软陶土，开始您的创作之旅！",
   },
   product: {
     selectColor: "选择颜色",
     addToCart: "加入购物车",
+    addedToCart: "已加入购物车！",
     searchPlaceholder: "搜寻商品...",
     noResults: "找不到符合您搜寻的商品。",
     quantity: "数量",

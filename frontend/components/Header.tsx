@@ -1,8 +1,8 @@
+
 import React, { useState } from 'react';
 import { useLocalization } from '../context/LocalizationContext';
-import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 import type { Language } from '../types';
-import CartModal from './CartModal';
 
 interface HeaderProps {
   currentView: 'shop' | 'about' | 'training';
@@ -11,59 +11,83 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
   const { language, setLanguage, t } = useLocalization();
-  const { itemCount } = useCart();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
     setIsLangMenuOpen(false);
   };
 
+  const handleMobileNav = (view: 'shop' | 'about' | 'training') => {
+    setView(view);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
-      <header className="bg-white shadow-md sticky top-0 z-20">
+      <header className="bg-white dark:bg-slate-800 shadow-md sticky top-0 z-20 transition-colors duration-300">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-amber-600 cursor-pointer" onClick={() => setView('about')}>
               {t('header.title')}
             </h1>
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
               <button
                 onClick={() => setView('about')}
-                className={`text-lg ${currentView === 'about' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 hover:text-amber-600'}`}
+                className={`text-lg ${currentView === 'about' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400'}`}
               >
                 {t('header.about')}
               </button>
               <button
                 onClick={() => setView('shop')}
-                className={`text-lg ${currentView === 'shop' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 hover:text-amber-600'}`}
+                className={`text-lg ${currentView === 'shop' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400'}`}
               >
                 {t('header.shop')}
               </button>
               <button
                 onClick={() => setView('training')}
-                className={`text-lg ${currentView === 'training' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 hover:text-amber-600'}`}
+                className={`text-lg ${currentView === 'training' ? 'text-amber-600 font-semibold border-b-2 border-amber-600' : 'text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400'}`}
               >
                 {t('header.training')}
               </button>
             </nav>
+            
             <div className="flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 p-1"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'light' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                )}
+              </button>
+
               {/* Facebook Link */}
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" className="text-blue-600 hover:text-blue-800 transition-colors">
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" className="hidden sm:block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z" />
                 </svg>
               </a>
               {/* Shopee Link */}
-              <a href="https://shopee.tw/kf40229" target="_blank" rel="noopener noreferrer" aria-label="Shopee Store" className="text-slate-600 hover:text-amber-600">
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACvklEQVR4AbxWA6wdQRStbdtud/ahtr2obdttWNu2bbuNGrVBbdt9qrm9p+6f/W/ncZOTTO5cnL2YmTjBfEazZolcqq2BR2NDAawhixONz63Knd0Ke+FSJONfQIa9CAdn038F+0zYThgIYA0Z9qATkeBeldX9GUB6SqjMkSMZ9qAD3bAGN5qVS+pWpFuEb16FlY1ND3vQoSzchk3YCHhUqduv9K4RKNNq6MImjLWXdv5sNrmhlS4mArqwCVN4OGUX4fRtY2dWK13oQBc2AQcheMyAusIp1iKALmz86Fw0I/AOhtEBe8vXWWHPo0UA42rWvXcCdqRIH8jZ1yAI3OBLoLALQg5U6TWRHe3RnfmN0aPjGaOrJsDapcp9SX5GxAf0zHrgpEjtPLrkRGCvylq6VXk+BZ5CDjsYzaqmMAwjLq13CxA4YdYDxwUMR0PXJAjK4SIfc0BSIAsHeAICzL0aK/NasxcLuRFVaYvZabfeytCn2iq8ayZnx80X2hSw5SY9IC2xNpTn/74bMAEhEJhlloEZloa46TTW/oe+bstDjTuViD8OnIA8zozAWHEnbDOmAXaYCFxS5lNkDsrgcI4AhEGk8gxeRJSNNCDiUaQRJPtk3YSsF98DGusdwtn+5td7ENM0ypqA3JYjgNqGOl4e1VYLr2Nav/enRxnT+RLorEnolwybDV+0vueXqM5q8O85Ta4jULtD/s4AtyZ3Mro7E6Ikfg80XS7NEcAh438E2akfek2cRWi9979zACnXpMloRJFS4jTle0C32azPAbbM18qZAfqoNf7E18heztXMmRoyItHa6u+Bd1qpnCbvfkcBwbv8I9V6G0YJTeduZK+CvybZDtFewdhyBN40K5UFm9EA3hAcAW58Iocnsb//NXlVpAl4FDY+VgJGO5Ycs0z1vUoNdzesUKVzhO+rQQ9+AMiIZbC8wmf/AAAAAElFTSuQmCC" alt="Shopee Store" className="h-6 w-6" />
+              <a href="https://shopee.tw/kf40229" target="_blank" rel="noopener noreferrer" aria-label="Shopee Store" className="hidden sm:block text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400">
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACvklEQVR4AbxWA6wdQRStbdtud/ahtr2obdttWNu2bbuNGrVBbdt9qrm9p+6f/W/ncZOTTO5cnL2YmTjBfEazZolcqq2BR2NDAawhixONz63Knd0Ke+FSJONfQIa9CAdn038F+0zYThgIYA0Z9qATkeBeldX9GUB6SqjMkSMZ9qAD3bAGN5qVS+pWpFuEb16FlY1ND3vQoSzchk3YCHhUqduv9K4RKNNq6MImjLWXdv5sNrmhlS4mArqwCVN4OGUX4fRtY2dWK13oQBc2AQcheMyAusIp1iKALmz86Fw0I/AOhtEBe8vXWWHPo0UA42rWvXcCdqRIH8jZ1yAI3OBLoLALQg5U6TWRHe3RnfmN0aPjGaOrJsDapcp9SX5GxAf0zHrgpEjtPLrkRGCvylq6VXk+BZ5CDjsYzaqmMAwjLq13CxA4YdYDxwUMR0PXJAjK4SIfc0BSIAsHeAICzL0aK/NasxcLuRFVaYvZabfeytCn2iq8ayZnx80X2hSw5SY9IC2xNpTn/74bMAEhEJhlloEZloa46TTW/oe+bstDjTuViD8OnIA8zozAWHEnbDOmAXaYCFxS5lNkDsrgcI4AhEGk8gxeRJSNNCDiUaQRJPtk3YSsF98DGusdwtn+5td7ENM0ypqA3JYjgNqGOl4e1VYLr2Nav/enRxnT+RLorEnolwybDV+0vueXqM5q8O85Ta4jULtD/s4AtyZ3Mro7E6Ikfg80XS7NEcAh438E2akfek2cRWi9979zACnXpMloRJFS4jTle0C32azPAbbM18qZAfqoNf7E18heztXMmRoyItHa6u+Bd1qpnCbvfkcBwbv8I9V6G0YJTeduZK+CvybZDtFewdhyBN40K5UFm9EA3hAcAW58Iocnsb//NXlVpAl4FDY+VgJGO5Ycs0z1vUoNdzesUKVzhO+rQQ9+AMiIZbC8wmf/AAAAAElFTSuQmCC" alt="Shopee Store" className="h-6 w-6 filter dark:invert dark:brightness-100" />
               </a>
               {/* Language Selector */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="flex items-center text-slate-600 hover:text-amber-600"
+                  className="flex items-center text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
                   aria-label="Change language"
                 >
                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -71,33 +95,69 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
                     </svg>
                 </button>
                 {isLangMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-30">
-                    <button onClick={() => handleSetLanguage('en')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'en' ? 'bg-amber-100 text-amber-700' : 'text-slate-700 hover:bg-slate-100'}`}>{t('header.english')}</button>
-                    <button onClick={() => handleSetLanguage('zhTW')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'zhTW' ? 'bg-amber-100 text-amber-700' : 'text-slate-700 hover:bg-slate-100'}`}>{t('header.traditionalChinese')}</button>
-                    <button onClick={() => handleSetLanguage('zhCN')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'zhCN' ? 'bg-amber-100 text-amber-700' : 'text-slate-700 hover:bg-slate-100'}`}>{t('header.simplifiedChinese')}</button>
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-700 rounded-md shadow-lg py-1 z-30">
+                    <button onClick={() => handleSetLanguage('en')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'en' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600'}`}>{t('header.english')}</button>
+                    <button onClick={() => handleSetLanguage('zhTW')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'zhTW' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600'}`}>{t('header.traditionalChinese')}</button>
+                    <button onClick={() => handleSetLanguage('zhCN')} className={`block px-4 py-2 text-sm w-full text-left ${language === 'zhCN' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600'}`}>{t('header.simplifiedChinese')}</button>
                   </div>
                 )}
               </div>
-              {/* Cart Icon */}
+
+              {/* Mobile Menu Button */}
               <button
-                onClick={() => setIsCartOpen(true)}
-                className="relative text-slate-600 hover:text-amber-600"
-                aria-label="Open cart"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 focus:outline-none"
+                aria-label="Toggle mobile menu"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                {itemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {itemCount}
-                  </span>
+                {isMobileMenuOpen ? (
+                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                   </svg>
+                ) : (
+                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                   </svg>
                 )}
               </button>
             </div>
           </div>
         </div>
+        
+        {/* Mobile Navigation Menu */}
+        <div className={`md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-64 opacity-100 border-t border-slate-100 dark:border-slate-700' : 'max-h-0 opacity-0'}`}>
+          <nav className="flex flex-col p-4 space-y-2">
+             <button
+                onClick={() => handleMobileNav('about')}
+                className={`text-left px-4 py-3 rounded-md text-base font-medium ${currentView === 'about' ? 'bg-amber-50 dark:bg-slate-700 text-amber-600 dark:text-amber-500' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+              >
+                {t('header.about')}
+              </button>
+              <button
+                onClick={() => handleMobileNav('shop')}
+                className={`text-left px-4 py-3 rounded-md text-base font-medium ${currentView === 'shop' ? 'bg-amber-50 dark:bg-slate-700 text-amber-600 dark:text-amber-500' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+              >
+                {t('header.shop')}
+              </button>
+              <button
+                onClick={() => handleMobileNav('training')}
+                className={`text-left px-4 py-3 rounded-md text-base font-medium ${currentView === 'training' ? 'bg-amber-50 dark:bg-slate-700 text-amber-600 dark:text-amber-500' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+              >
+                {t('header.training')}
+              </button>
+               {/* Mobile Social Links */}
+               <div className="flex space-x-4 px-4 py-2 sm:hidden border-t border-slate-100 dark:border-slate-700 mt-2 pt-4">
+                  <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z" />
+                    </svg>
+                  </a>
+                  <a href="https://shopee.tw/kf40229" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-300">
+                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACvklEQVR4AbxWA6wdQRStbdtud/ahtr2obdttWNu2bbuNGrVBbdt9qrm9p+6f/W/ncZOTTO5cnL2YmTjBfEazZolcqq2BR2NDAawhixONz63Knd0Ke+FSJONfQIa9CAdn038F+0zYThgIYA0Z9qATkeBeldX9GUB6SqjMkSMZ9qAD3bAGN5qVS+pWpFuEb16FlY1ND3vQoSzchk3YCHhUqduv9K4RKNNq6MImjLWXdv5sNrmhlS4mArqwCVN4OGUX4fRtY2dWK13oQBc2AQcheMyAusIp1iKALmz86Fw0I/AOhtEBe8vXWWHPo0UA42rWvXcCdqRIH8jZ1yAI3OBLoLALQg5U6TWRHe3RnfmN0aPjGaOrJsDapcp9SX5GxAf0zHrgpEjtPLrkRGCvylq6VXk+BZ5CDjsYzaqmMAwjLq13CxA4YdYDxwUMR0PXJAjK4SIfc0BSIAsHeAICzL0aK/NasxcLuRFVaYvZabfeytCn2iq8ayZnx80X2hSw5SY9IC2xNpTn/74bMAEhEJhlloEZloa46TTW/oe+bstDjTuViD8OnIA8zozAWHEnbDOmAXaYCFxS5lNkDsrgcI4AhEGk8gxeRJSNNCDiUaQRJPtk3YSsF98DGusdwtn+5td7ENM0ypqA3JYjgNqGOl4e1VYLr2Nav/enRxnT+RLorEnolwybDV+0vueXqM5q8O85Ta4jULtD/s4AtyZ3Mro7E6Ikfg80XS7NEcAh438E2akfek2cRWi9979zACnXpMloRJFS4jTle0C32azPAbbM18qZAfqoNf7E18heztXMmRoyItHa6u+Bd1qpnCbvfkcBwbv8I9V6G0YJTeduZK+CvybZDtFewdhyBN40K5UFm9EA3hAcAW58Iocnsb//NXlVpAl4FDY+VgJGO5Ycs0z1vUoNdzesUKVzhO+rQQ9+AMiIZbC8wmf/AAAAAElFTSuQmCC" alt="Shopee Store" className="h-6 w-6 filter dark:invert dark:brightness-100" />
+                  </a>
+               </div>
+          </nav>
+        </div>
       </header>
-      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 };

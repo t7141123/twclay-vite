@@ -1,13 +1,14 @@
+
 import React from 'react';
 import { useLocalization } from '../context/LocalizationContext';
 
 const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center h-full">
-    <div className="bg-amber-100 text-amber-600 rounded-full p-4 mb-4">
+  <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md text-center flex flex-col items-center h-full transition-colors duration-300">
+    <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full p-4 mb-4">
       {icon}
     </div>
-    <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
-    <p className="text-slate-600 leading-relaxed">{children}</p>
+    <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">{title}</h3>
+    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{children}</p>
   </div>
 );
 
@@ -30,8 +31,8 @@ const StoryCard: React.FC<{
       </div>
       {/* Content Section */}
       <div className="md:w-3/5">
-        <h3 className="text-2xl font-bold text-amber-600 mb-4">{title}</h3>
-        <div className="text-slate-600 space-y-4 leading-relaxed">
+        <h3 className="text-2xl font-bold text-amber-600 dark:text-amber-500 mb-4">{title}</h3>
+        <div className="text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed">
           {content}
         </div>
       </div>
@@ -84,7 +85,8 @@ const About: React.FC = () => {
           <li>{t('about.story.card2Item5')}</li>
         </ul>
       ),
-      imageSrc: "https://images.unsplash.com/photo-1557954242-2376a63e3b57?q=80&w=1887&auto=format&fit=crop",
+      // Reverted to loremflickr to match the original mock style
+      imageSrc: "https://loremflickr.com/600/600/sculpture,clay?lock=2",
       position: 'right'
     },
     {
@@ -93,7 +95,7 @@ const About: React.FC = () => {
         <>
           <p>{t('about.story.card3ContentP1')}</p>
           <p>{t('about.story.card3ContentP2')}</p>
-          <p className="font-semibold text-amber-700 mt-4">{t('about.story.card3ContentP3')}</p>
+          <p className="font-semibold text-amber-700 dark:text-amber-500 mt-4">{t('about.story.card3ContentP3')}</p>
         </>
       ),
       imageSrc: "https://loremflickr.com/600/600/craft,art?lock=3",
@@ -109,8 +111,8 @@ const About: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-12">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-slate-800 mb-4">{t('header.about')}</h1>
-              <p className="text-xl text-amber-600 font-semibold">{t('about.title')}</p>
+              <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-4">{t('header.about')}</h1>
+              <p className="text-xl text-amber-600 dark:text-amber-500 font-semibold">{t('about.title')}</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -131,12 +133,12 @@ const About: React.FC = () => {
       </div>
 
       {/* Story Section - Full Width Background */}
-      <div className="bg-amber-50 py-12 md:py-20">
+      <div className="bg-amber-50 dark:bg-slate-900 py-12 md:py-20 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12 md:mb-16">
-              <h2 className="text-3xl font-bold text-slate-800 mb-3">{t('about.story.title')}</h2>
-              <p className="text-lg text-slate-500">{t('about.story.subtitle')}</p>
+              <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-3">{t('about.story.title')}</h2>
+              <p className="text-lg text-slate-500 dark:text-slate-400">{t('about.story.subtitle')}</p>
             </div>
 
             <div className="space-y-16">
