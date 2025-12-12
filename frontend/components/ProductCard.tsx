@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
       aria-label={`View details for ${product.name[language]}`}
     >
       <div className="overflow-hidden">
-        <img src={product.imageUrls[0]} alt={product.name[language]} className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110" />
+        <img src={product.imageUrls[0]} alt={product.name[language]} className="w-full h-56 object-contain p-2 transition-transform duration-300 group-hover:scale-110" />
       </div>
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{product.name[language]}</h3>

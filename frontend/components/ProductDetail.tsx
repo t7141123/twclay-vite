@@ -52,7 +52,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
             <img
               src={activeImageUrl}
               alt={`${product.name[language]} main view`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -63,7 +63,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
                 className={`w-20 h-20 rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 bg-white ${activeImageUrl === url ? 'ring-2 ring-offset-2 ring-amber-500' : 'opacity-70 hover:opacity-100'}`}
                 aria-label={`View image ${index + 1} of ${product.name[language]}`}
               >
-                <img src={url} alt={`${product.name[language]} thumbnail ${index+1}`} className="w-full h-full object-cover" />
+                <img src={url} alt={`${product.name[language]} thumbnail ${index+1}`} className="w-full h-full object-contain" />
               </button>
             ))}
           </div>

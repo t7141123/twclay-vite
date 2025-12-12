@@ -1,14 +1,20 @@
 
 import React from 'react';
 import { useLocalization } from '../context/LocalizationContext';
+import PageBanner from './PageBanner';
+import aboutBanner from '../assets/about_banner.png';
+import iconSafety from '../assets/icon_safety.png';
+import iconMalleable from '../assets/icon_malleable.png';
+import iconHeat from '../assets/icon_heat.png';
+import storyMaterial from '../assets/story_material.png';
 
 const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
-  <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md text-center flex flex-col items-center h-full transition-colors duration-300">
-    <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full p-4 mb-4">
+  <div className="group bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-slate-100 dark:border-slate-700 text-center flex flex-col items-center h-full transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.3)] hover:border-amber-100 dark:hover:border-amber-900/30">
+    <div className="mb-6 transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
       {icon}
     </div>
-    <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">{title}</h3>
-    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{children}</p>
+    <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-500 transition-colors duration-300">{title}</h3>
+    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{children}</p>
   </div>
 );
 
@@ -40,22 +46,17 @@ const StoryCard: React.FC<{
   );
 };
 
+
 const SafetyIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944a11.955 11.955 0 019-2.606 11.955 11.955 0 019 2.606 12.02 12.02 0 00-2.618-9.028z" />
-  </svg>
+  <img src={iconSafety} alt="Safety Icon" className="h-16 w-16 object-contain" />
 );
 
 const MalleableIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-  </svg>
+  <img src={iconMalleable} alt="Malleable Icon" className="h-16 w-16 object-contain" />
 );
 
 const HeatIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0121.5 1.5c.001 3.183-1.354 6.364-4.014 8.014-2 .5-5 0-7.014 2.986z" />
-  </svg>
+  <img src={iconHeat} alt="Heat Icon" className="h-16 w-16 object-contain" />
 );
 
 const About: React.FC = () => {
@@ -85,8 +86,7 @@ const About: React.FC = () => {
           <li>{t('about.story.card2Item5')}</li>
         </ul>
       ),
-      // Reverted to loremflickr to match the original mock style
-      imageSrc: "https://loremflickr.com/600/600/sculpture,clay?lock=2",
+      imageSrc: storyMaterial,
       position: 'right'
     },
     {
@@ -106,27 +106,36 @@ const About: React.FC = () => {
 
   return (
     <>
+      {/* Banner Section */}
+      <PageBanner 
+        title={t('header.about')} 
+        subtitle={t('about.title')} 
+        imageSrc={aboutBanner}
+      />
+
       {/* Top Section with Features */}
       <div className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-12">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-4">{t('header.about')}</h1>
-              <p className="text-xl text-amber-600 dark:text-amber-500 font-semibold">{t('about.title')}</p>
-            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <FeatureCard icon={<SafetyIcon />} title={t('about.feature1Title')}>
-                {t('about.feature1Text')}
-              </FeatureCard>
+              <div className="animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                <FeatureCard icon={<SafetyIcon />} title={t('about.feature1Title')}>
+                  {t('about.feature1Text')}
+                </FeatureCard>
+              </div>
 
-              <FeatureCard icon={<MalleableIcon />} title={t('about.feature2Title')}>
-                {t('about.feature2Text')}
-              </FeatureCard>
+              <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                <FeatureCard icon={<MalleableIcon />} title={t('about.feature2Title')}>
+                  {t('about.feature2Text')}
+                </FeatureCard>
+              </div>
 
-              <FeatureCard icon={<HeatIcon />} title={t('about.feature3Title')}>
-                {t('about.feature3Text')}
-              </FeatureCard>
+              <div className="animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                <FeatureCard icon={<HeatIcon />} title={t('about.feature3Title')}>
+                  {t('about.feature3Text')}
+                </FeatureCard>
+              </div>
             </div>
           </div>
         </div>
@@ -143,13 +152,14 @@ const About: React.FC = () => {
 
             <div className="space-y-16">
               {storyCards.map((card, index) => (
-                <StoryCard
-                  key={index}
-                  title={card.title}
-                  content={card.content}
-                  imageSrc={card.imageSrc}
-                  imagePosition={card.position as 'left' | 'right'}
-                />
+                <div key={index} className="animate-fade-in-up" style={{ animationDelay: `${400 + (index * 150)}ms` }}>
+                  <StoryCard
+                    title={card.title}
+                    content={card.content}
+                    imageSrc={card.imageSrc}
+                    imagePosition={card.position as 'left' | 'right'}
+                  />
+                </div>
               ))}
             </div>
           </div>

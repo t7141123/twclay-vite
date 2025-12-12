@@ -2,6 +2,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import { useLocalization } from '../context/LocalizationContext';
+import { submitPaymentForm } from '../utils/ecpay';
 
 interface CartModalProps {
   isOpen: boolean;
@@ -11,6 +12,13 @@ interface CartModalProps {
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal, itemCount } = useCart();
   const { t, language } = useLocalization();
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) return;
+    // Trigger ECPay form submission
+    // Note: In a real app with backend, you might want to create order in DB first.
+    submitPaymentForm(cartItems, cartTotal, language);
+  };
 
   if (!isOpen) return null;
 
@@ -83,7 +91,10 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                 <button onClick={clearCart} className="px-4 py-2 text-sm border border-red-500 text-red-500 rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
                     {t('cart.clear')}
                 </button>
-                <button className="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-md hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors">
+                <button 
+                  onClick={handleCheckout}
+                  className="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-md hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors"
+                >
                     {t('cart.checkout')}
                 </button>
             </div>
